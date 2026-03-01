@@ -7,19 +7,14 @@ public class Main {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
 
-        // User input strings
-        //String interestRate;
-        String period;
-
-        // conver user strings
+        // convert user strings
         int principalInt = 0;
         float interestRateFloat = 0;
         int periodInt = 0;
 
+        // Loan moeny
         do {
-            // Loan moeny
             try {
-                // Money borrow
                 System.out.print("Principal: ");
                 principalInt = Integer.parseInt(scanner.nextLine().trim());
 
@@ -47,24 +42,27 @@ public class Main {
                 }
             }
             catch (NumberFormatException e){
-                System.out.println("(Principal) is not a number");
+                System.out.println("(interest) is not a number");
             }
 
         } while(interestRateFloat == 0 || interestRateFloat < 2);
 
-
+        //period
         do {
+            try {
+                System.out.print("period: ");
+                periodInt = Integer.parseInt(scanner.nextLine().trim());
 
-            //period
-            System.out.print("period: ");
-            period = scanner.nextLine().trim();
-
-        } while (period.equals(""));
-
-
-
-        periodInt = Integer.parseInt(period);
-
+                if (periodInt == 0){
+                    System.out.println("(period) can't be zero");
+                } else if (periodInt < 2) {
+                    System.out.println("periodInt must be equal or higher to 2");
+                }
+            }
+            catch (NumberFormatException e){
+                System.out.println("(period) is not a number");
+            }
+        } while (periodInt == 0 || periodInt < 2);
 
 
         // Interes
