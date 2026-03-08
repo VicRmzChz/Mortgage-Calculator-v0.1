@@ -1,5 +1,6 @@
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -8,11 +9,36 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // convert user strings
+        String customerName = "";
         int principalInt = 0;
         float interestRateFloat = 0;
         int periodInt = 0;
 
-        // Loan moeny
+        String[] customers = new String[0];
+        String[] customersPayments = new String[0];
+
+        // Borrowed money: ask the user to enter an amount that is $2000 or more,
+        // check that the user's input is not zero and that the loan is equal to or
+        // greater than $2000, as well as ensure that it is a number being entered; otherwise,
+        // it will throw an error and continue asking the user to enter something valid.
+        do {
+            try {
+                System.out.print("Enter Customer Name: ");
+                customerName = scanner.nextLine().trim();
+
+                if (customerName.isEmpty() || customerName == "") {
+                    System.out.println("(Name) can't be Empty");
+                } else if (customerName.matches("[A-Za-z]+")) {
+                    System.out.println("Valid Name");
+                } else{
+                    System.out.println("Name must not have numbers");
+                }
+            } catch (NullPointerException  e) {
+                System.out.println("Null value encountered.");
+            }
+        } while(customerName == null || customerName.isEmpty() || !customerName.matches("[A-Za-z]+"));
+
+
         do {
             try {
                 System.out.print("Principal: ");
@@ -56,13 +82,19 @@ public class Main {
                 if (periodInt == 0){
                     System.out.println("(period) can't be zero");
                 } else if (periodInt < 2) {
-                    System.out.println("periodInt must be equal or higher to 2");
+                    System.out.println("period must be equal or higher to 2");
                 }
             }
             catch (NumberFormatException e){
                 System.out.println("(period) is not a number");
             }
         } while (periodInt == 0 || periodInt < 2);
+
+
+        customers = Arrays.copyOf(customers, customers.length + 1);
+        customers[customers.length - 1] = customerName;
+
+
 
 
         // Interes
@@ -72,8 +104,18 @@ public class Main {
         float totalInterest3 = (float)Math.pow(1 + totalInterest, month) - 1;
         float total = principalInt * (totalInterest2 / totalInterest3);
 
-        // Print out to user
         NumberFormat usFormat = NumberFormat.getCurrencyInstance(Locale.US);
-        System.out.println("Mortgage: " + usFormat.format(total));
+        String totalCurrency = usFormat.format(total);
+
+
+        // Print out to user
+
+        System.out.println("Mortgage: " + totalCurrency);
+
+        customersPayments = Arrays.copyOf(customersPayments, customersPayments.length + 1);
+        customersPayments[customersPayments.length - 1] = totalCurrency;
+
+        System.out.println(Arrays.toString(customers));
+        System.out.println(Arrays.toString(customersPayments));
     }
 }
